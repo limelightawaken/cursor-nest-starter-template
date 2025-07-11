@@ -1,0 +1,367 @@
+---
+description: This rule should be applied when trying to write code for the frontend
+alwaysApply: false
+---
+ # Frontend Development Rules
+
+
+You are an expert full-stack developer proficient in TypeScript, React, Next.js, and modern UI/UX frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI). Your task is to produce the most optimized and maintainable Next.js code, following best practices and adhering to the principles of clean code and robust architecture.
+
+### Objective
+    - Create a Next.js solution that is not only functional but also adheres to the best practices in performance, security, and maintainability.
+
+### Code Style and Structure
+    - Write concise, technical TypeScript code with accurate examples.
+    - Use functional and declarative programming patterns; avoid classes.
+    - Favor iteration and modularization over code duplication.
+    - Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+    - Structure files with exported components, subcomponents, helpers, static content, and types.
+    - Use lowercase with dashes for directory names (e.g., `components/auth-wizard`).
+
+### Optimization and Best Practices
+    - Minimize the use of `'use client'`, `useEffect`, and `setState`; favor React Server Components (RSC) and Next.js SSR features.
+    - Implement dynamic imports for code splitting and optimization.
+    - Use responsive design with a mobile-first approach.
+    - Optimize images: use WebP format, include size data, implement lazy loading.
+
+### Error Handling and Validation
+    - Prioritize error handling and edge cases:
+      - Use early returns for error conditions.
+      - Implement guard clauses to handle preconditions and invalid states early.
+      - Use custom error types for consistent error handling.
+
+### State Management and Data Fetching
+    - Use modern state management solutions (e.g., Zustand, TanStack React Query) to handle global state and data fetching.
+    - Implement validation using Zod for schema validation.
+
+### Methodology
+    1. **System 2 Thinking**: Approach the problem with analytical rigor. Break down the requirements into smaller, manageable parts and thoroughly consider each step before implementation.
+    2. **Tree of Thoughts**: Evaluate multiple possible solutions and their consequences. Use a structured approach to explore different paths and select the optimal one.
+    3. **Iterative Refinement**: Before finalizing the code, consider improvements, edge cases, and optimizations. Iterate through potential enhancements to ensure the final solution is robust.
+
+**Process**:
+    1. **Deep Dive Analysis**: Begin by conducting a thorough analysis of the task at hand, considering the technical requirements and constraints.
+    2. **Planning**: Develop a clear plan that outlines the architectural structure and flow of the solution, using <PLANNING> tags if necessary.
+    3. **Implementation**: Implement the solution step-by-step, ensuring that each part adheres to the specified best practices.
+    4. **Review and Optimize**: Perform a review of the code, looking for areas of potential optimization and improvement.
+    5. **Finalization**: Finalize the code by ensuring it meets all requirements, is secure, and is performant.
+
+## Code Principles
+1. 𝐃𝐑𝐘 (𝐃𝐨𝐧'𝐭 𝐑𝐞𝐩𝐞𝐚𝐭 𝐘𝐨𝐮𝐫𝐬𝐞𝐥𝐟): Avoid duplicating code. Keep logic centralized to make your codebase easier to maintain.
+
+2. 𝐊𝐈𝐒𝐒 (𝐊𝐞𝐞𝐩 𝐈𝐭 𝐒𝐢𝐦𝐩𝐥𝐞, 𝐒𝐭𝐮𝐩𝐢𝐝): Aim for simplicity in your solutions. Avoid overengineering or adding unnecessary layers.
+
+3. 𝐘𝐀𝐆𝐍𝐈 (𝐘𝐨𝐮 𝐀𝐫𝐞𝐧’𝐭 𝐆𝐨𝐧𝐧𝐚 𝐍𝐞𝐞𝐝 𝐈𝐭): Only build what you need today. Don't waste time on hypothetical features that may never be used.
+
+4. LOD (𝐋𝐚𝐰 𝐨𝐟 𝐃𝐞𝐦𝐞𝐭𝐞𝐫): Talk only to your immediate neighbors. Don’t chain too many calls.
+
+𝐒𝐎𝐋𝐈𝐃 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞𝐬:
+
+5. 𝐒𝐑𝐏 (𝐒𝐢𝐧𝐠𝐥𝐞 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐢𝐛𝐢𝐥𝐢𝐭𝐲 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): A class should have one responsibility only. Keep each component focused and cohesive.
+
+6. 𝐎𝐂𝐏 (𝐎𝐩𝐞𝐧/𝐂𝐥𝐨𝐬𝐞𝐝 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Code should be open for extension but closed for modification. Add new features without altering existing logic.
+
+7. 𝐋𝐒𝐏 (𝐋𝐢𝐬𝐤𝐨𝐯 𝐒𝐮𝐛𝐬𝐭𝐢𝐭𝐮𝐭𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Subclasses must be usable in place of their parent classes without breaking functionality.
+
+8. 𝐈𝐒𝐏 (𝐈𝐧𝐭𝐞𝐫𝐟𝐚𝐜𝐞 𝐒𝐞𝐠𝐫𝐞𝐠𝐚𝐭𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Design small, focused interfaces instead of large, general ones.
+
+9. 𝐃𝐈𝐏 (𝐃𝐞𝐩𝐞𝐧𝐝𝐞𝐧𝐜𝐲 𝐈𝐧𝐯𝐞𝐫𝐬𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): High-level modules should not depend on low-level modules. Both should depend on abstractions.
+    
+
+## Project Structure and Organization
+
+### Directory Structure
+- Follow the established `/src` structure with clear separation of concerns
+- Use route groups with parentheses for logical grouping: `(auth)`, `(dashboard)`
+- Place reusable components in `/components` with subdirectories by category
+- Keep API logic in `/lib/api` with specific service files
+- Store custom hooks in `/hooks` with descriptive names
+
+### File Naming Conventions
+- Use kebab-case for directories: `auth-tabs`, `login-form`
+- Use PascalCase for component files: `AuthTabs.tsx`, `LoginForm.tsx`
+- Use camelCase for utility files: `authClient.ts`, `utils.ts`
+- Use lowercase with hyphens for page files: `page.tsx`, `layout.tsx`
+
+## Component Development
+
+### Component Architecture
+- Create single-purpose components with clear responsibilities
+- Use functional components with hooks exclusively
+- Implement proper TypeScript interfaces for all props
+- Export components as named exports when possible
+
+### Component Structure Template
+```typescript
+interface ComponentProps {
+  // Define all props with proper types
+}
+
+export function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // Component logic
+  return (
+    // JSX
+  );
+}
+```
+
+### UI Components
+- Use the established UI component library in `/components/ui`
+- Follow shadcn/ui patterns for consistency
+- Implement proper accessibility attributes
+- Use Tailwind CSS classes for styling
+
+## Authentication Patterns
+
+### Auth Implementation
+- Use the established auth-client pattern for authentication
+- Implement proper error handling for auth operations
+- Use the LogoutButton component for consistent logout behavior
+- Follow the auth layout pattern for authenticated routes
+
+### Route Protection
+- Use appropriate layouts for auth vs dashboard routes
+- Implement proper loading states during auth checks
+- Handle unauthenticated states gracefully
+
+## State Management
+
+### Local State
+- Use useState for component-level state
+- Use useEffect for side effects with proper cleanup
+- Implement custom hooks for reusable stateful logic
+
+### Server State
+- Use the established API client pattern
+- Implement proper error handling for API calls
+- Use loading states for async operations
+
+## API Integration
+
+### API Client Usage
+- Use the centralized API client from `/lib/api/client.ts`
+- Create specific service files for different API endpoints
+- Implement proper error handling and type safety
+- Follow the established pattern in `dashboard.ts`
+
+### Type Safety
+- Define proper TypeScript interfaces for API responses
+- Use generic types for reusable API patterns
+- Implement proper error types
+
+## Styling Guidelines
+
+### CSS and Styling
+- Use Tailwind CSS for all styling
+- Follow mobile-first responsive design principles
+- Use the established color scheme and design tokens
+- Implement proper dark mode support if needed
+
+### Layout Patterns
+- Use the established layout components: `AuthLayout`, `DashboardLayout`
+- Implement consistent spacing and typography
+- Follow the navbar pattern for navigation
+
+## Mobile Optimization & Responsive Design
+
+### Mobile-First Approach
+- Design for mobile screens first, then progressively enhance for larger screens
+- Use Tailwind's responsive prefixes: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`
+- Test on actual devices and various screen sizes regularly
+- Ensure touch targets are at least 44px × 44px for accessibility
+
+### Responsive Breakpoints
+```css
+/* Tailwind responsive breakpoints */
+sm: 640px   /* Small devices (landscape phones) */
+md: 768px   /* Medium devices (tablets) */
+lg: 1024px  /* Large devices (laptops) */
+xl: 1280px  /* Extra large devices (desktops) */
+2xl: 1536px /* Extra extra large devices */
+```
+
+### Mobile Navigation
+- Use hamburger menus for mobile navigation
+- Implement swipe gestures where appropriate
+- Ensure navigation is easily accessible with thumb navigation
+- Use bottom navigation for primary actions on mobile
+
+### Touch Interactions
+- Implement proper touch feedback with hover states
+- Use `active:` classes for touch feedback
+- Ensure buttons and interactive elements are properly sized
+- Implement proper focus states for keyboard navigation
+
+### Performance on Mobile
+- Optimize images with proper srcsets and lazy loading
+- Use Next.js Image component for automatic optimization
+- Minimize bundle size for faster loading on slower connections
+- Implement proper loading states for slower networks
+
+## UI Spacing & Padding Guidelines
+
+### Consistent Spacing Scale
+Use Tailwind's spacing scale consistently throughout the application:
+```css
+/* Preferred spacing values */
+xs: 0.5rem (8px)   /* Tight spacing */
+sm: 0.75rem (12px) /* Small spacing */
+md: 1rem (16px)    /* Default spacing */
+lg: 1.5rem (24px)  /* Large spacing */
+xl: 2rem (32px)    /* Extra large spacing */
+2xl: 3rem (48px)   /* Section spacing */
+```
+
+### Component Spacing Rules
+- **Cards**: Use `p-6` (24px) for card padding, `p-4` (16px) for mobile
+- **Forms**: Use `space-y-4` (16px) between form elements
+- **Sections**: Use `py-8` (32px) or `py-12` (48px) for section padding
+- **Container**: Use `px-4` (16px) for mobile, `px-6` (24px) for desktop
+- **Buttons**: Use `px-4 py-2` for standard buttons, `px-6 py-3` for large buttons
+
+### Layout Spacing
+```typescript
+// Container spacing example
+<div className="container mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="space-y-8">
+    {/* Content with consistent vertical spacing */}
+  </div>
+</div>
+
+// Card spacing example
+<div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+  <div className="space-y-4">
+    {/* Card content */}
+  </div>
+</div>
+```
+
+### Typography Spacing
+- Use `leading-relaxed` (1.625) for body text
+- Use `space-y-2` (8px) between paragraphs
+- Use `mb-4` (16px) after headings
+- Use `mb-6` (24px) between sections
+
+## Modern & Clean Interface Design
+
+### Design Principles
+- **Minimalism**: Remove unnecessary elements, focus on essential functionality
+- **Whitespace**: Use generous whitespace to improve readability and focus
+- **Hierarchy**: Establish clear visual hierarchy with typography and spacing
+- **Consistency**: Maintain consistent patterns across the entire application
+
+### Color Palette
+```css
+/* Modern color system */
+Primary: Blue/Indigo scale for main actions
+Secondary: Gray scale for neutral elements
+Success: Green scale for positive actions
+Warning: Amber scale for cautionary actions
+Error: Red scale for destructive actions
+```
+
+### Typography System
+```css
+/* Heading hierarchy */
+h1: text-3xl md:text-4xl font-bold
+h2: text-2xl md:text-3xl font-semibold
+h3: text-xl md:text-2xl font-semibold
+h4: text-lg md:text-xl font-medium
+body: text-base leading-relaxed
+small: text-sm text-gray-600
+```
+
+### Visual Design Elements
+- Use subtle shadows: `shadow-sm`, `shadow-md`, `shadow-lg`
+- Implement smooth transitions: `transition-all duration-200`
+- Use rounded corners consistently: `rounded-lg` for cards, `rounded-md` for inputs
+- Apply subtle borders: `border border-gray-200`
+
+### Modern UI Patterns
+- **Cards**: Clean cards with subtle shadows and rounded corners
+- **Forms**: Floating labels, clear focus states, inline validation
+- **Buttons**: Solid primary buttons, outline secondary buttons
+- **Navigation**: Clean navigation with proper hover states
+- **Loading States**: Skeleton screens and smooth loading indicators
+
+### Component Composition
+- Build complex components from simple, reusable parts
+- Use composition over inheritance for component flexibility
+- Implement proper prop forwarding with TypeScript
+- Create compound components for complex UI patterns
+
+
+## Code Quality & Build Prevention
+
+#### Type Safety Rules
+- **Never use `any`** - Use `unknown` or proper types instead
+- **Define interfaces for all props and API responses**
+- **Use proper type imports**: `import type { ComponentProps } from 'react'`
+- **Implement proper return types** for all functions
+- **Use const assertions** for immutable data: `as const`
+- **Leverage union types** instead of loose typing
+
+#### Dependency Rules
+- **Lock major versions** to prevent breaking changes
+- **Use exact versions** for critical dependencies
+- **Regularly audit dependencies**: `npm audit` or `yarn audit`
+- **Remove unused dependencies** before committing
+- **Use `peerDependencies`** for shared dependencies
+- **Avoid deprecated packages** - check npm advisories
+
+#### Error Handling Rules
+- **Implement error boundaries** for all route components
+- **Use try-catch blocks** for all async operations
+- **Validate all external data** before use
+- **Handle loading and error states** in components
+- **Log errors appropriately** for debugging
+- **Provide user-friendly error messages**
+
+```typescript
+// ❌ Bad - Unhandled async operation
+const fetchData = async () => {
+  const response = await api.get('/data');
+  setData(response.data);
+};
+
+// ✅ Good - Proper error handling
+const fetchData = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+    const response = await api.get('/data');
+    setData(response.data);
+  } catch (error) {
+    setError(error instanceof Error ? error.message : 'Failed to fetch data');
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
+### Code Review Checklist
+- [ ] TypeScript compiles without errors
+- [ ] ESLint passes with no warnings
+- [ ] All tests pass
+- [ ] No console.log statements
+- [ ] Proper error handling implemented
+- [ ] Performance optimizations applied
+- [ ] Accessibility standards met
+- [ ] Bundle size impact assessed
+- [ ] Security vulnerabilities addressed
+
+## Security Best Practices
+
+### Authentication Security
+- Never store sensitive data in localStorage
+- Use secure HTTP-only cookies when possible
+- Implement proper CSRF protection
+- Validate all user inputs
+
+### Data Handling
+- Sanitize user inputs before display
+- Use proper validation for forms
+- Implement rate limiting for API calls
+- Handle sensitive data appropriately
+
+These rules should be followed consistently across all frontend development to maintain code quality, security, and maintainability.
