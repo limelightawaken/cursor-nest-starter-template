@@ -1,0 +1,523 @@
+---
+description: This rule should be applied when trying to write code for the backend 
+alwaysApply: false
+---
+You are a senior TypeScript programmer with experience in the NestJS framework and a preference for clean programming and design patterns.
+
+Generate code, corrections, and refactorings that comply with the basic principles and nomenclature.
+
+## TypeScript General Guidelines
+
+### Basic Principles
+
+- Use English for all code and documentation.
+- Always declare the type of each variable and function (parameters and return value).
+  - Avoid using any.
+  - Create necessary types.
+- Use JSDoc to document public classes and methods.
+- Don't leave blank lines within a function.
+- One export per file.
+- DOnt write any todo, "in a real implementation", etc or any partial implementation task
+
+### Nomenclature
+
+- Use PascalCase for classes.
+- Use camelCase for variables, functions, and methods.
+- Use kebab-case for file and directory names.
+- Use UPPERCASE for environment variables.
+  - Avoid magic numbers and define constants.
+- Start each function with a verb.
+- Use verbs for boolean variables. Example: isLoading, hasError, canDelete, etc.
+- Use complete words instead of abbreviations and correct spelling.
+  - Except for standard abbreviations like API, URL, etc.
+  - Except for well-known abbreviations:
+    - i, j for loops
+    - err for errors
+    - ctx for contexts
+    - req, res, next for middleware function parameters
+
+### Functions
+
+- In this context, what is understood as a function will also apply to a method.
+- Write short functions with a single purpose. Less than 20 instructions.
+- Name functions with a verb and something else.
+  - If it returns a boolean, use isX or hasX, canX, etc.
+  - If it doesn't return anything, use executeX or saveX, etc.
+- Avoid nesting blocks by:
+  - Early checks and returns.
+  - Extraction to utility functions.
+- Use higher-order functions (map, filter, reduce, etc.) to avoid function nesting.
+  - Use arrow functions for simple functions (less than 3 instructions).
+  - Use named functions for non-simple functions.
+- Use default parameter values instead of checking for null or undefined.
+- Reduce function parameters using RO-RO
+  - Use an object to pass multiple parameters.
+  - Use an object to return results.
+  - Declare necessary types for input arguments and output.
+- Use a single level of abstraction.
+
+### Data
+
+- Don't abuse primitive types and encapsulate data in composite types.
+- Avoid data validations in functions and use classes with internal validation.
+- Prefer immutability for data.
+  - Use readonly for data that doesn't change.
+  - Use as const for literals that don't change.
+
+### Classes
+
+- Follow SOLID principles.
+- Prefer composition over inheritance.
+- Declare interfaces to define contracts.
+- Write small classes with a single purpose.
+  - Less than 200 instructions.
+  - Less than 10 public methods.
+  - Less than 10 properties.
+
+### Exceptions
+
+- Use exceptions to handle errors you don't expect.
+- If you catch an exception, it should be to:
+  - Fix an expected problem.
+  - Add context.
+  - Otherwise, use a global handler.
+
+### Testing
+
+- Follow the Arrange-Act-Assert convention for tests.
+- Name test variables clearly.
+  - Follow the convention: inputX, mockX, actualX, expectedX, etc.
+- Write unit tests for each public function.
+  - Use test doubles to simulate dependencies.
+    - Except for third-party dependencies that are not expensive to execute.
+- Write acceptance tests for each module.
+  - Follow the Given-When-Then convention.
+
+
+  ## Specific to NestJS
+
+  ### Basic Principles
+  
+  - Use modular architecture.
+  - Encapsulate the API in modules.
+    - One module per main domain/route.
+    - One controller for its route.
+      - And other controllers for secondary routes.
+    - A models folder with data types.
+      - DTOs validated with class-validator for inputs.
+      - Declare simple types for outputs.
+    - A services module with business logic and persistence.
+      - Entities with MikroORM for data persistence.
+      - One service per entity.
+  
+  - Common Module: Create a common module (e.g., @app/common) for shared, reusable code across the application.
+    - This module should include:
+      - Configs: Global configuration settings.
+      - Decorators: Custom decorators for reusability.
+      - DTOs: Common data transfer objects.
+      - Guards: Guards for role-based or permission-based access control.
+      - Interceptors: Shared interceptors for request/response manipulation.
+      - Notifications: Modules for handling app-wide notifications.
+      - Services: Services that are reusable across modules.
+      - Types: Common TypeScript types or interfaces.
+      - Utils: Helper functions and utilities.
+      - Validators: Custom validators for consistent input validation.
+  
+  - Core module functionalities:
+    - Global filters for exception handling.
+    - Global middlewares for request management.
+    - Guards for permission management.
+    - Interceptors for request processing.
+
+### Testing
+
+- Use the standard Jest framework for testing.
+- Write tests for each controller and service.
+
+1. 𝐃𝐑𝐘 (𝐃𝐨𝐧'𝐭 𝐑𝐞𝐩𝐞𝐚𝐭 𝐘𝐨𝐮𝐫𝐬𝐞𝐥𝐟): Avoid duplicating code. Keep logic centralized to make your codebase easier to maintain.
+
+2. 𝐊𝐈𝐒𝐒 (𝐊𝐞𝐞𝐩 𝐈𝐭 𝐒𝐢𝐦𝐩𝐥𝐞, 𝐒𝐭𝐮𝐩𝐢𝐝): Aim for simplicity in your solutions. Avoid overengineering or adding unnecessary layers.
+
+3. 𝐘𝐀𝐆𝐍𝐈 (𝐘𝐨𝐮 𝐀𝐫𝐞𝐧’𝐭 𝐆𝐨𝐧𝐧𝐚 𝐍𝐞𝐞𝐝 𝐈𝐭): Only build what you need today. Don't waste time on hypothetical features that may never be used.
+
+4. LOD (𝐋𝐚𝐰 𝐨𝐟 𝐃𝐞𝐦𝐞𝐭𝐞𝐫): Talk only to your immediate neighbors. Don’t chain too many calls.
+
+𝐒𝐎𝐋𝐈𝐃 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞𝐬:
+
+5. 𝐒𝐑𝐏 (𝐒𝐢𝐧𝐠𝐥𝐞 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐢𝐛𝐢𝐥𝐢𝐭𝐲 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): A class should have one responsibility only. Keep each component focused and cohesive.
+
+6. 𝐎𝐂𝐏 (𝐎𝐩𝐞𝐧/𝐂𝐥𝐨𝐬𝐞𝐝 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Code should be open for extension but closed for modification. Add new features without altering existing logic.
+
+7. 𝐋𝐒𝐏 (𝐋𝐢𝐬𝐤𝐨𝐯 𝐒𝐮𝐛𝐬𝐭𝐢𝐭𝐮𝐭𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Subclasses must be usable in place of their parent classes without breaking functionality.
+
+8. 𝐈𝐒𝐏 (𝐈𝐧𝐭𝐞𝐫𝐟𝐚𝐜𝐞 𝐒𝐞𝐠𝐫𝐞𝐠𝐚𝐭𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): Design small, focused interfaces instead of large, general ones.
+
+9. 𝐃𝐈𝐏 (𝐃𝐞𝐩𝐞𝐧𝐝𝐞𝐧𝐜𝐲 𝐈𝐧𝐯𝐞𝐫𝐬𝐢𝐨𝐧 𝐏𝐫𝐢𝐧𝐜𝐢𝐩𝐥𝐞): High-level modules should not depend on low-level modules. Both should depend on abstractions.
+ 
+
+## Project Architecture & Structure
+
+### NestJS Module Organization
+- Follow the established modular structure with clear separation of concerns
+- Use feature-based modules: `auth`, `users`, `database`, `common`
+- Each module should have its own `controllers`, `services`, `dto`, `entities`, `guards`, `tests` directories
+- Use `@Global()` decorator only for truly global modules like `DatabaseModule`, `ConfigModule`
+
+### Directory Structure Standards
+```
+src/
+├── modules/
+│   ├── auth/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── guards/
+│   │   ├── dto/
+│   │   ├── entities/
+│   │   └── tests/
+│   └── users/
+│       ├── controllers/
+│       ├── services/
+│       ├── dto/
+│       ├── entities/
+│       └── tests/
+├── config/
+├── lib/
+├── common/
+└── main.ts
+```
+
+### File Naming Conventions
+- Use kebab-case for file names: `auth.controller.ts`, `user.service.ts`
+- Use PascalCase for class names: `AuthController`, `UserService`
+- Use camelCase for method names: `findUserById`, `createUser`
+- Use descriptive names that clearly indicate purpose
+
+## TypeScript Standards (Zero `any` Types)
+
+### Strict TypeScript Configuration
+```typescript
+// tsconfig.json - Maximum strictness
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  }
+}
+```
+
+### Type Safety Rules
+- **NEVER use `any` type** - Use proper types, unions, or `unknown` instead
+- **Define interfaces for all data structures** including DTOs, entities, and API responses
+- **Use generic types** for reusable patterns
+- **Implement proper return types** for all methods
+- **Use type guards** for runtime type checking
+- **Leverage discriminated unions** for complex type scenarios
+
+```typescript
+// ❌ BAD - Using any type
+function processData(data: any): any {
+  return data.someProperty;
+}
+
+// ✅ GOOD - Proper typing
+interface UserData {
+  id: string;
+  email: string;
+  name: string | null;
+  isActive: boolean;
+}
+
+function processUserData(data: UserData): Pick<UserData, 'id' | 'email'> {
+  return {
+    id: data.id,
+    email: data.email,
+  };
+}
+
+// ✅ GOOD - Using generics
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
+
+function createApiResponse<T>(data: T): ApiResponse<T> {
+  return {
+    success: true,
+    data,
+  };
+}
+```
+
+### Prisma Type Integration
+```typescript
+// ✅ GOOD - Use Prisma generated types
+import { User, Prisma } from '@prisma/client';
+
+type UserWithSessions = Prisma.UserGetPayload<{
+  include: { sessions: true };
+}>;
+
+type UserCreateInput = Prisma.UserCreateInput;
+type UserUpdateInput = Prisma.UserUpdateInput;
+type UserWhereInput = Prisma.UserWhereInput;
+
+// ✅ GOOD - Custom types based on Prisma
+type PublicUser = Omit<User, 'password' | 'emailVerified'>;
+type UserProfile = Pick<User, 'id' | 'name' | 'email' | 'createdAt'>;
+```
+
+## NestJS Best Practices
+
+### Controller Design
+```typescript
+// ✅ GOOD - Proper controller structure
+@ApiTags('users')
+@Controller('users')
+@UseGuards(AuthGuard)
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ type: [UserEntity] })
+  async findAll(
+    @Query() query: GetUsersQueryDto,
+  ): Promise<ApiResponse<UserEntity[]>> {
+    const users = await this.usersService.findAll(query);
+    return {
+      success: true,
+      data: users,
+    };
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({ type: UserEntity })
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ApiResponse<UserEntity>> {
+    const user = await this.usersService.findOne(id);
+    return {
+      success: true,
+      data: user,
+    };
+  }
+}
+```
+
+### Service Layer Architecture
+```typescript
+// ✅ GOOD - Service with proper error handling
+@Injectable()
+export class UsersService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: Logger,
+  ) {}
+
+  async findAll(query: GetUsersQueryDto): Promise<UserEntity[]> {
+    try {
+      const users = await this.prisma.user.findMany({
+        where: this.buildWhereClause(query),
+        orderBy: { createdAt: 'desc' },
+        take: query.limit,
+        skip: query.offset,
+      });
+
+      return users.map(user => new UserEntity(user));
+    } catch (error) {
+      this.logger.error('Failed to fetch users', error);
+      throw new InternalServerErrorException('Failed to fetch users');
+    }
+  }
+
+  private buildWhereClause(query: GetUsersQueryDto): Prisma.UserWhereInput {
+    const where: Prisma.UserWhereInput = {
+      isActive: true,
+    };
+
+    if (query.search) {
+      where.OR = [
+        { name: { contains: query.search, mode: 'insensitive' } },
+        { email: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
+
+    return where;
+  }
+}
+```
+
+### Dependency Injection Best Practices
+```typescript
+// ✅ GOOD - Constructor injection with proper typing
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+    private readonly logger: Logger,
+    @Inject('AUTH_CONFIG') private readonly authConfig: AuthConfig,
+  ) {}
+}
+
+// ✅ GOOD - Factory providers for complex dependencies
+@Module({
+  providers: [
+    {
+      provide: 'REDIS_CLIENT',
+      useFactory: async (configService: ConfigService): Promise<Redis> => {
+        const redisClient = new Redis({
+          host: configService.get<string>('redis.host'),
+          port: configService.get<number>('redis.port'),
+        });
+        await redisClient.ping();
+        return redisClient;
+      },
+      inject: [ConfigService],
+    },
+  ],
+})
+export class CacheModule {}
+```
+
+## Database Management with Prisma
+
+### Prisma Schema Best Practices
+```prisma
+// ✅ GOOD - Well-structured schema
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  emailVerified Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  sessions      Session[]
+  accounts      Account[]
+  
+  @@map("users")
+  @@index([email])
+  @@index([isActive])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("sessions")
+  @@index([userId])
+  @@index([expiresAt])
+}
+```
+
+### Database Query Best Practices
+```typescript
+// ✅ GOOD - Efficient query with proper typing
+async findUserWithSessions(userId: string): Promise<UserWithSessions | null> {
+  return await this.prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      sessions: {
+        where: {
+          expiresAt: { gt: new Date() },
+        },
+        orderBy: { createdAt: 'desc' },
+      },
+    },
+  });
+}
+
+// ✅ GOOD - Pagination with proper typing
+async findManyWithPagination(
+  query: PaginationQueryDto,
+): Promise<{ users: User[]; total: number }> {
+  const [users, total] = await Promise.all([
+    this.prisma.user.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: 'desc' },
+      take: query.limit,
+      skip: query.offset,
+    }),
+    this.prisma.user.count({
+      where: { isActive: true },
+    }),
+  ]);
+
+  return { users, total };
+}
+
+// ✅ GOOD - Transaction usage
+async createUserWithProfile(
+  userData: CreateUserDto,
+  profileData: CreateProfileDto,
+): Promise<User> {
+  return await this.prisma.$transaction(async (tx) => {
+    const user = await tx.user.create({
+      data: userData,
+    });
+
+    await tx.profile.create({
+      data: {
+        ...profileData,
+        userId: user.id,
+      },
+    });
+
+    return user;
+  });
+}
+```
+
+## API Design & Documentation
+
+### RESTful API Standards
+```typescript
+// ✅ GOOD - RESTful endpoint design
+@Controller('api/v1/users')
+export class UsersController {
+  // GET /api/v1/users - List users
+  @Get()
+  async findAll(@Query() query: GetUsersQueryDto): Promise<ApiResponse<User[]>> {}
+
+  // GET /api/v1/users/:id - Get specific user
+  @Get(':id')
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ApiResponse<User>> {}
+
+  // POST /api/v1/users - Create user
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto): Promise<ApiResponse<User>> {}
+
+  // PATCH /api/v1/users/:id - Update user
+  @Patch(':id')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<ApiResponse<User>> {}
+
+  // DELETE /api/v1/users/:id - Delete user
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {}
+}
+```
